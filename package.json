@@ -1,0 +1,31 @@
+{
+  "name": "serverless-external-adaptor",
+  "version": "1.0.0",
+  "main": "handler.js",
+  "dependencies": {
+    "@chainlink/external-adapter": "^0.2.6",
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "express": "^4.17.1",
+    "mocha": "^7.1.2"
+  },
+  "devDependencies": {
+    "serverless-offline": "^6.9.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/_mocha --timeout 0",
+    "start": "./node_modules/.bin/serverless offline -s dev",
+    "debug": "SET SLS_DEBUG=* && node --inspect C:\\\\Users\\joshu\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": ""
+}
