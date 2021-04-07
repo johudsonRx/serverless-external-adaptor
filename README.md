@@ -1,6 +1,6 @@
 # Serverless Chainlink NodeJS External Adapter Template
 
-This template provides a basic framework for testing/debugging Chainlink external adaptors hosted on serverless locally via VS Code debugging tools. It also provides a framework for deploying serverless functions to the cloud via AWS. 
+This template provides a basic framework for testing/debugging serverless functions that host Chainlink external adaptors. It also provides a framework for deploying serverless functions to the cloud via AWS. 
 
 
 ## Prerequisites
