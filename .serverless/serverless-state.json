@@ -174,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/serverless-external-adaptor/dev/1617711272530-2021-04-06T12:14:32.530Z/serverless-external-adaptor.zip"
+                "S3Key": "serverless/serverless-external-adaptor/dev/1617801033182-2021-04-07T13:10:33.182Z/serverless-external-adaptor.zip"
               },
               "Handler": "index.handlerv2",
               "Runtime": "nodejs14.x",
@@ -192,14 +192,14 @@
               "HelloLogGroup"
             ]
           },
-          "HelloLambdaVersiontQ9awC25n0CqPJg6YTYzW42hvzlDpDmRr5fMGQSg": {
+          "HelloLambdaVersionYUWcp4s0RmDcEv3J4qI6qyMec4r6pjm14Sf5pKiBT8Q": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
               },
-              "CodeSha256": "a0LDC8a/RGRuefFFgclFhns8dODrcjsTwMpfBXXugI8="
+              "CodeSha256": "hVkDobjWldOaEIQwi6hhji2KxXiRFAxtekM0RdnWeX8="
             }
           },
           "ApiGatewayRestApi": {
@@ -272,7 +272,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1617711251498": {
+          "ApiGatewayDeployment1617801019130": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -331,7 +331,7 @@
           "HelloLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersiontQ9awC25n0CqPJg6YTYzW42hvzlDpDmRr5fMGQSg"
+              "Ref": "HelloLambdaVersionYUWcp4s0RmDcEv3J4qI6qyMec4r6pjm14Sf5pKiBT8Q"
             }
           },
           "ServiceEndpoint": {
@@ -465,7 +465,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersiontQ9awC25n0CqPJg6YTYzW42hvzlDpDmRr5fMGQSg"
+        "versionLogicalId": "HelloLambdaVersionYUWcp4s0RmDcEv3J4qI6qyMec4r6pjm14Sf5pKiBT8Q"
       }
     },
     "configValidationMode": "warn",
@@ -490,7 +490,7 @@
     "artifact": "C:\\Users\\joshu\\Desktop\\serverless-external-adaptor\\.serverless\\serverless-external-adaptor.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-external-adaptor/dev/1617711272530-2021-04-06T12:14:32.530Z",
+    "artifactDirectoryName": "serverless/serverless-external-adaptor/dev/1617801033182-2021-04-07T13:10:33.182Z",
     "artifact": "serverless-external-adaptor.zip"
   }
 }

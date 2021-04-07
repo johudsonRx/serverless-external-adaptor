@@ -24,6 +24,7 @@ provider:
   name: aws
   runtime: nodejs14.x
 
+# This plugin will allow us to debug the serverless function offline without having to deploy it to the cloud
 plugins:
   - serverless-offline
 

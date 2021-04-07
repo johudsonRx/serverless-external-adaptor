@@ -50,6 +50,7 @@ npm install -g serverless
 npm install dotenv
 npm install serverless-offline --save-dev
 npm install serverless-offline -g
+npm install @chainlink/external-adapter
 ```
 
 # Testing and Deploying
@@ -152,4 +153,5 @@ npm test
 
 # Final Comments
 
-This external adaptor is a very basic example of sending a request for stock data and receiving a response. If we want to introduce some logic that does more than just returns a price, we can modify this in the createRequest function of the index.js file. The goal for this template is to get up and running quickly. 
+This external adaptor is a very basic example of sending a request for stock data and receiving a response. If we want to introduce some logic that does more than just returns a price, we can modify this in the createRequest function of the index.js file. In the handlerv2 method, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. 
+
