@@ -4,7 +4,6 @@ const { Requester, Validator } = require('@chainlink/external-adapter')
 require('dotenv').config()
 var apiKey = process.env.API_KEY
 
-
 // Define custom error scenarios for the API.
 // Return true for the adapter to retry.
 const customError = (data) => {
@@ -50,7 +49,7 @@ const createRequest = (input, callback) => {
       // It's common practice to store the desired value at the top-level
       // result key. This allows different adapters to be compatible with
       // one another.
-      response.data.result = response?.data[0]?.name
+      response.data.result = {"price": response?.data[0]?.price}
 
       callback(response.status, Requester.success(jobRunID, response))
     })
@@ -70,7 +69,6 @@ module.exports.gcpservice = (req, res) => {
 // This is a wrapper to allow the function to work with
 // AWS Lambda
 module.exports.handler = async (event, context, callback) => {
-  console.log("REACHING HANDLER SERVICE")
   createRequest(event, (statusCode, data) => {
     callback(null, data)
   })
