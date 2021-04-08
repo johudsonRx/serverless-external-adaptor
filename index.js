@@ -59,17 +59,8 @@ const createRequest = (input, callback) => {
 }
 
 // This is a wrapper to allow the function to work with
-// GCP Functions
-module.exports.gcpservice = (req, res) => {
-  createRequest(req.body, (statusCode, data) => {
-    res.status(statusCode).send(data)
-  })
-}
-
-// This is a wrapper to allow the function to work with
 // AWS Lambda
 module.exports.handler = async (event, context, callback) => {
-  console.log("REACHING HANDLER SERVICE")
   createRequest(event, (statusCode, data) => {
     callback(null, data)
   })

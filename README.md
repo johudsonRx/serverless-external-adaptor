@@ -1,6 +1,6 @@
 # Serverless Chainlink NodeJS External Adapter Template
 
-This template provides a basic framework for testing/debugging serverless functions that host Chainlink external adaptors. It also provides a framework for deploying serverless functions to the cloud via AWS. 
+This template provides a basic framework for testing/debugging Chainlink external adaptors hosted on serverless locally via VS Code debugging tools. It also provides a framework for deploying serverless functions to the cloud via AWS. 
 
 
 ## Prerequisites
@@ -43,7 +43,7 @@ From the root of the directory, run:
 npm install
 ```
 
-The following dependencies may have to be installed independently:
+The following dependencies have to be installed independently:
 
 ```bash
 npm install -g serverless 
@@ -120,16 +120,27 @@ Using curl:
 curl -X POST -H "content-type:application/json" "http://localhost:3000/" --data '{ "id": 0, "data": { "symbol": "AAPL"}}'
 ```
 
+### 3.2 Using the Debugger
+
+- After hitting send, the request will pause on the breakpoints that you've sent. The debugger bar will now have a play button that will allow you to move from breakpoint to breakpoint
+
+  - Ex. The request pauses at line 80 and you can see the value of every variable/parameter on this line at this particular time of the request. After hovering over the "event" parameter, it will show what this parameter is set to.
+  - Note: Notice the play button that appears on the debugger. This will allow anyone sending this request to go from line 80 to 81 after pressing play
+
+<img width="372" alt="live_debugger" src="https://user-images.githubusercontent.com/19862040/114025869-98e04f00-9843-11eb-8607-ecda5519c6fa.png">
+
+<img width="73" alt="play_debugger" src="https://user-images.githubusercontent.com/19862040/114026266-0db38900-9844-11eb-8aa4-763eb4a3ef50.png">
+
 Expected Output:
 
 ```bash
 {"price": 127.4481}
 ```
 
-### 4. Configuring the debugger (Can be skipped if step 3 works)
+### 4. Deploy the Serverless Function
 
+If you were able to complete step 3 - 3.2, then you were able to test a serverless function locally. If you are satisfied with the result, then feel free to deploy one to the cloud in step 4. 
 
-### 5. Deploy the serverless
 - In the terminal, type:
 
 ```bash
@@ -153,9 +164,5 @@ npm test
 
 # Final Comments
 
-<<<<<<< HEAD
 This external adaptor is a very basic example of sending a request for stock data and receiving a response. If we want to introduce some logic that does more than just returns a price, we can modify this in the createRequest function of the index.js file. In the handlerv2 method, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. 
 
-=======
-This external adaptor is a very basic example of sending a request for stock data and receiving a response. If we want to introduce some logic that does more than just returns a price, we can modify this in the createRequest function of the index.js file. The goal for this template is to get up and running quickly. 
->>>>>>> aa7a76036bf49e9106e24db93cc3e01d735fd894
