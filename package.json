@@ -21,7 +21,7 @@
   "scripts": {
     "test": "./node_modules/.bin/_mocha --timeout 0",
     "start": "./node_modules/.bin/serverless offline -s dev",
-    "debug": "SET SLS_DEBUG=* && node --inspect C:\\\\Users\\joshu\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev"
+    "debug": "SET SLS_DEBUG=* && node --inspect C:\\\\Users\\<YOUR_USER>\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev"
   },
   "author": "",
   "license": "ISC",

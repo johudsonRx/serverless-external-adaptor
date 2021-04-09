@@ -87,6 +87,21 @@ serverless config credentials --provider aws --key <ACCESS_KEY_ID> --secret <SEC
 
   - Replace your the API key with the api key that you have obtained from https://financialmodelingprep.com/
 
+### 2.2 Change the Path to your "serverless" npm module
+
+- In the package.json, there will be a "debug" field in the "scripts" object of the package.json:
+  ```bash
+  "scripts": {
+      "test": "./node_modules/.bin/_mocha --timeout 0",
+      "start": "./node_modules/.bin/serverless offline -s dev",
+      "debug": "SET SLS_DEBUG=* && node --inspect C:\\\\Users\\<YOUR_USER>\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev"
+    }
+  ```
+- Configure the path in the debug field to point to the serverless node module on your local machine.
+  - Note: The module should exist there after globally installing serverless
+
+- Replace <YOUR_USER> with your machine's username for this path, assuming the serverless module is installed here and assuming you're running on windows
+  - Note: This is a Windows path and it will vary depending on what OS you use. If the path is not correct, you will have to search your machne for the serverless module, copy the path to it, and then paste it into this debug field
 
 ### 3. Debug the example Serverless Function
 
@@ -167,7 +182,21 @@ npm test
 
 This external adaptor is a very basic example of sending a request for stock data and receiving a response. If we want to introduce some logic that does more than just returns a price, we can modify this in the createRequest function of the index.js file. In the handlerv2 method, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. 
 
-##TODO:
+## TODO:
 - Add more error handling
 - Add more tests
 - Test other scenarios like data manipulation (if necessary)
+
+## Inspiration/Links:
+
+Debugging Lambda locally:
+   - https://levelup.gitconnected.com/debugging-nodejs-lambda-functions-locally-with-breakpoints-dfb1e2e3c77d
+   - https://www.youtube.com/watch?v=PJ12zbdOQWI
+
+Deploying Lambda:
+
+  - https://www.youtube.com/watch?v=71cd5XerKss
+
+External Adaptor Template:
+
+  - https://github.com/PatrickAlphaC/CL-EA-NodeJS-Template
