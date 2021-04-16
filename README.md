@@ -161,11 +161,13 @@ npm test
 
 # Final Comments
 
-This external adaptor is a very basic example of sending a request for price data and receiving a response. If we want to introduce some logic that does more than just returns a price average, we can modify this in the createRequest function of the index.js file. In the handlerv2 function, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. The goal is to also be able to test our serverless adapots quickly and be able to make modifications to our serverless functions and redeploy in seconds. 
+This external adaptor is a very basic example of sending a request for price data and receiving a response. If we want to introduce some logic that does more than just returns a price average, we can modify this in the createRequest function of the index.js file. In the handlerv2 function, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. The goal is to also be able to test, modify, adapt, and redeploy quickly. Hopefully this template can help to accomplish that. 
 
 ## TODO:
 - Figure out how to do request validition for serverless-offline locally (Currently only happening in AWS Gateway)
 - Add tests for those local validations
 - Add authorization
+- Experiment with frequency of request
+  
 
 
