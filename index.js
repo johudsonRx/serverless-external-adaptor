@@ -1,83 +1,59 @@
 'use strict';
 
-const { Requester, Validator } = require('@chainlink/external-adapter')
+const {serializeError} = require('serialize-error');
+const fetch = require('node-fetch');
 require('dotenv').config()
-var apiKey = process.env.API_KEY
+const coin_api_key = process.env.COIN_API_KEY
 
-// Define custom error scenarios for the API.
-// Return true for the adapter to retry.
-const customError = (data) => {
-  if (data.Response === 'Error') return true
-  return false
-}
 
-// Define custom parameters to be used by the adapter.
-// Extra parameters can be stated in the extra object,
-// with a Boolean value indicating whether or not they
-// should be required.
-const customParams = {
-  symbol: ['symbol', 'ticker', 'name'],
-  endpoint: false
-}
-
-const createRequest = (input, callback) => {
-  // The Validator helps you validate the Chainlink request data
-  const validator = new Validator(callback, input, customParams)
-  const jobRunID = validator.validated.id
-  const endpoint = validator.validated.data.endpoint || 'AAPL'
-  const url = `https://financialmodelingprep.com/api/v3/quote/${endpoint}`
-  const apikey = process.env.API_KEY
-
-  const params = {
-    apikey
-  }
-
-  // This is where you would add method and headers
-  // you can add method like GET or POST and add it to the config
-  // The default is GET requests
-  // method = 'get' 
-  // headers = 'headers.....'
-  const config = {
-    url,
-    params
-  }
-
-  // The Requester allows API calls be retry in case of timeout
-  // or connection failure
-  Requester.request(config, customError)
-    .then(response => {
-      // It's common practice to store the desired value at the top-level
-      // result key. This allows different adapters to be compatible with
-      // one another.
-      response.data.result = {"price": response?.data[0]?.price}
-
-      callback(response.status, Requester.success(jobRunID, response))
-    })
-    .catch(error => {
-      callback(500, Requester.errored(jobRunID, error))
-    })
-}
-
-// This is a wrapper to allow the function to work with
-// AWS Lambda
-module.exports.handler = async (event, context, callback) => {
-  createRequest(event, (statusCode, data) => {
-    callback(null, data)
+const getAverage = (array) => {
+  let [sum, count] = [0, 0]
+  array.forEach(number => {
+    if(typeof number == 'number'){
+      sum += number
+      count ++
+    }
   })
+  return sum / count
+  }
+
+
+const createRequest = async (input, urls, callback) => {
+  
+  let responses = await Promise.all([ 
+                                          fetch(urls[0]),
+                                          fetch(urls[1]),
+                                          fetch(urls[2])
+                                        ]).then(responses => {
+                                              return Promise.all(responses.map(response =>  {
+                                                return response.json()
+                                              }));
+                                              }).then(data => {
+                                                  let responseData = [data[0]?.USD, data[1].quotes?.USD?.price, data[2][0]?.price_usd]
+                                                  let average = getAverage(responseData)
+                                                    if(typeof average !== 'number'){
+                                                      average = 'One or more of the data endpoints are either down, could not be reached, or could not recieve a response from. Please retry again later.'
+                                                    }
+                                                    callback(200, {status: 'success', value: average})
+                                              }).catch(err => {
+                                                    callback(500, {status: 'error', message: JSON.stringify(serializeError(err))})
+                                              })
+
 }
 
 // This is a wrapper to allow the function to work with
 // newer AWS Lambda implementations
 module.exports.handlerv2 = (event, context, callback) => {
-   createRequest(JSON.parse(event.body), (statusCode, data) => {
+  
+  let urls = ['https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD', 'https://api.coinpaprika.com/v1/tickers/btc-bitcoin', `http://rest.coinapi.io/v1/assets/BTC;ETH?apikey=${coin_api_key}`]
+  createRequest(JSON.parse(event.body), urls, event, (statusCode, data) => {
       callback(null, {
       statusCode: statusCode,
-      body: JSON.stringify(data.result),
+      body: JSON.stringify(data),
       isBase64Encoded: false
+      })
     })
-  })
 }
 
-// This allows the function to be exported for testing
-// or for running in express
 module.exports.createRequest = createRequest
+module.exports.getAverage = getAverage

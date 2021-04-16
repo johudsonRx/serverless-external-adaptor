@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "@chainlink/external-adapter": "^0.2.6",
-    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.0.0",
@@ -13,7 +11,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^7.1.2"
+    "mocha": "^7.1.2",
+    "node-fetch": "^2.6.1",
+    "serialize-error": "^8.0.1"
   },
   "devDependencies": {
     "serverless-offline": "^6.9.0"

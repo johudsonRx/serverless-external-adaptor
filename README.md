@@ -1,6 +1,6 @@
-# Serverless Chainlink NodeJS External Adapter Template
+# Serverless Chainlink NodeJS External Adapter Template: Multiple Endpoint Price Average
 
-This template provides a basic framework for testing/debugging Chainlink external adaptors hosted on serverless locally via VS Code debugging tools. It also provides a framework for deploying serverless functions to the cloud via AWS. 
+This template provides a basic framework for testing/debugging Chainlink external adaptors hosted on serverless locally via VS Code debugging tools. The adaptor will call three endpoints, obtain price data (for the price of 1 Bitcoin) from them, and then get the average of those three prices. It also provides a framework for deploying serverless functions to the cloud via AWS. 
 
 
 ## Prerequisites
@@ -26,13 +26,13 @@ cd serverless-external-adaptor
 
 ## Output
 
-The output should return the current stock price of Apple in the following format:
+The output should return the current price of BTC in USD, in the following format:
 
 ```json
-{"price": 127.4481}
+{"status": "success", "value": "62905.462384881954"}
 ```
 
-The code can be editted to return other data like the exchange AAPL trades on, day lows and day highs, market cap, and more.
+The code can be editted to return other data like Bitcoin volume, day lows and day highs, market cap, and more.
 
 ## Installing  Dependencies
 
@@ -50,7 +50,6 @@ npm install -g serverless
 npm install dotenv
 npm install serverless-offline --save-dev
 npm install serverless-offline -g
-npm install @chainlink/external-adapter
 ```
 
 # Testing and Deploying
@@ -87,21 +86,6 @@ serverless config credentials --provider aws --key <ACCESS_KEY_ID> --secret <SEC
 
   - Replace your the API key with the api key that you have obtained from https://financialmodelingprep.com/
 
-### 2.2 Change the Path to your "serverless" npm module
-
-- In the package.json, there will be a "debug" field in the "scripts" object of the package.json:
-  ```bash
-  "scripts": {
-      "test": "./node_modules/.bin/_mocha --timeout 0",
-      "start": "./node_modules/.bin/serverless offline -s dev",
-      "debug": "SET SLS_DEBUG=* && node --inspect C:\\\\Users\\<YOUR_USER>\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev"
-    }
-  ```
-- Configure the path in the debug field to point to the serverless node module on your local machine.
-  - Note: The module should exist there after globally installing serverless
-
-- Replace <YOUR_USER> with your machine's username for this path, assuming the serverless module is installed here and assuming you're running on windows
-  - Note: This is a Windows path and it will vary depending on what OS you use. If the path is not correct, you will have to search your machne for the serverless module, copy the path to it, and then paste it into this debug field
 
 ### 3. Debug the example Serverless Function
 
@@ -126,37 +110,34 @@ serverless config credentials --provider aws --key <ACCESS_KEY_ID> --secret <SEC
   - After you have set your break points and have your debugger running, open up your API tool send a POST request with the url from step 3 with a request body of:
 
 ```bash
-{ "id": 0, "data": { "symbol": "AAPL"}}
+{ "action": "getBTCPrice"}
 ```
+  - The acceptable values for the'action' (at this moment) key include: ["getBTCPrice", "BTC", "BTC-USD", "btc"]
 
 Using curl:
 
 ```bash
-curl -X POST -H "content-type:application/json" "http://localhost:3000/" --data '{ "id": 0, "data": { "symbol": "AAPL"}}'
+curl -X POST -H "content-type:application/json" "http://localhost:3000/dev/quote" --data '{ "action": "getBTCPrice"}'
 ```
 
 ### 3.2 Using the Debugger
 
-- After hitting send, the request will pause on the breakpoints that you've sent. The debugger bar will now have a play button that will allow you to move from breakpoint to breakpoint
+- After hitting send, the request will pause on the breakpoints that you've sent and the debugger bar will now have a play button that will allow you to move from breakpoint to breakpoint
 
   - Ex. The request pauses at line 80 and you can see the value of every variable/parameter on this line at this particular time of the request. After hovering over the "event" parameter, it will show what this parameter is set to.
-  - Note: Notice the play button that appears on the debugger. This will allow anyone sending this request to go from line 80 to 81 after pressing play
+  - Note: Notice the play button that appears on the debugger, this will allow anyone sending this request to go from line 80 to 81 after pressing play
 
 <img width="372" alt="live_debugger" src="https://user-images.githubusercontent.com/19862040/114025869-98e04f00-9843-11eb-8607-ecda5519c6fa.png">
 
 <img width="73" alt="play_debugger" src="https://user-images.githubusercontent.com/19862040/114026266-0db38900-9844-11eb-8aa4-763eb4a3ef50.png">
 
 Expected Output:
-  - Note: This was the price of a share of APPL stock at the time of this documentation. The price changes and this is not a fixed number.
 
 ```bash
-{"price": 127.4481}
+{"status": "success", "value": "62905.462384881954"}
 ```
 
 ### 4. Deploy the Serverless Function
-
-If you were able to complete step 3 - 3.2, then you were able to test a serverless function locally. If you are satisfied with the result, then feel free to deploy one to the cloud in step 4. 
-
 - In the terminal, type:
 
 ```bash
@@ -180,23 +161,11 @@ npm test
 
 # Final Comments
 
-This external adaptor is a very basic example of sending a request for stock data and receiving a response. If we want to introduce some logic that does more than just returns a price, we can modify this in the createRequest function of the index.js file. In the handlerv2 method, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. 
+This external adaptor is a very basic example of sending a request for price data and receiving a response. If we want to introduce some logic that does more than just returns a price average, we can modify this in the createRequest function of the index.js file. In the handlerv2 function, we can add another field to object being passed to the callback function in order to see details about the event. This may be useful for modifying things like the frequency that our serverless function sends requests. The goal for this template is to get up and running quickly. The goal is to also be able to test our serverless adapots quickly and be able to make modifications to our serverless functions and redeploy in seconds. 
 
 ## TODO:
-- Add more error handling
-- Add more tests
-- Test other scenarios like data manipulation (if necessary)
+- Figure out how to do request validition for serverless-offline locally (Currently only happening in AWS Gateway)
+- Add tests for those local validations
+- Add authorization
 
-## Inspiration/Links:
 
-Debugging Lambda locally:
-   - https://levelup.gitconnected.com/debugging-nodejs-lambda-functions-locally-with-breakpoints-dfb1e2e3c77d
-   - https://www.youtube.com/watch?v=PJ12zbdOQWI
-
-Deploying Lambda:
-
-  - https://www.youtube.com/watch?v=71cd5XerKss
-
-External Adaptor Template:
-
-  - https://github.com/PatrickAlphaC/CL-EA-NodeJS-Template

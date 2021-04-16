@@ -67,6 +67,11 @@ functions:
     - http:
         path: quote
         method: post
+        # request:
+        #   schemas: 
+        #     schema: ${file(price_schema.json)}
+        #     name: Price Request Validation
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
